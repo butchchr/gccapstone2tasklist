@@ -29,7 +29,7 @@ namespace gccapstone2tasklist
             tasks.RemoveAt(OffsetListId(userInput));
         }
 
-        public void MarkDone(int userInput)
+        public void MarkComplete(int userInput)
         {
             GetTask(OffsetListId(userInput)).IsDone = true;       
         }
