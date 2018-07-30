@@ -33,9 +33,13 @@ namespace gccapstone2tasklist
                     {
                         //ListTasks - Display tasks tabbed and display task number
                         logic.ListTasks();
-                        Console.WriteLine("Done?\t\tDue Date\t\tTeam Member\t\tDescription");
+                        int count = 1;
+                        Console.WriteLine("Task#\t\tDone?\t\tDue Date\t\tTeam Member\t\tDescription");
                         foreach (Task task in logic.ListTasks())
-                            Console.WriteLine($"{task.IsDone}\t\t{task.DueDate.ToShortDateString()}\t\t{task.TeamMemberName}\t\t\t{task.Description}");
+                        {
+                            Console.WriteLine($"{count}\t\t{task.IsDone}\t\t{task.DueDate.ToShortDateString()}\t\t{task.TeamMemberName}\t\t\t{task.Description}");
+                            count++;
+                        }
                     }
                     else if (userChoice == AddTaskChoice)
                     {
@@ -59,9 +63,8 @@ namespace gccapstone2tasklist
                     else if (userChoice == (DeleteTaskChoice))
                     {
                         //DeleteTask - ask which task, validate, display, 1 to end "confirm Y/N" return to main
-                        Console.WriteLine("DELETE TASK\nWhat task would you like to delete?:");
-                        int deleteTask = int.Parse(Console.ReadLine());
-
+                        int deleteTask = PromptAgain("DELETE TASK\nWhat task would you like to delete?:");
+                        
                         if (IsPressedKey($"You want to delete task number {deleteTask}? y/n"))
                         {
                             logic.DeleteTask(deleteTask);
@@ -74,9 +77,7 @@ namespace gccapstone2tasklist
                     else if (userChoice == MarkCompleteChoice)
                     {
                         //IsDone - ask which task, validate, display, Y changes and main, N main
-                        Console.WriteLine("MARK COMPLETED\nWhat task would you like to mark completed");
-                        int completeTask = int.Parse(Console.ReadLine());
-
+                        int completeTask = PromptAgain("MARK COMPLETED\nWhat task would you like to mark completed");
                         if (IsPressedKey($"You want to complete task number {completeTask}? y/n"))
                         {
                             logic.MarkComplete(completeTask);
@@ -90,6 +91,8 @@ namespace gccapstone2tasklist
                     {
                         if (IsPressedKey("Do you want to quit? y/n"))
                         {
+                            Console.WriteLine("Have a Great Day!");
+                            Console.ReadKey();
                             run = false;
                         }
                         else
@@ -124,6 +127,19 @@ namespace gccapstone2tasklist
                 return true;
             }
             return false;
+        }
+        //prompt user for valid input and adds it to the list
+        static int PromptAgain( string prompt)
+        {
+            bool runAgain = true;
+            int completeTask;
+            do
+            {
+                Console.WriteLine(prompt);
+                runAgain = !int.TryParse(Console.ReadLine(), out completeTask);
+            }
+            while (runAgain);
+            return completeTask;
         }
     }
 }

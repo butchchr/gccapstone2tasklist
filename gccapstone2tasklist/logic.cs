@@ -53,7 +53,7 @@ namespace gccapstone2tasklist
 
         private bool IsValid(int taskIndex)
         {
-            return taskIndex > 0 && taskIndex < tasks.Count; 
+            return taskIndex >= 0 && taskIndex < tasks.Count; 
         }
 
         private int OffsetListId(int userInput)
