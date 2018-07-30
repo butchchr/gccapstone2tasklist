@@ -32,7 +32,10 @@ namespace gccapstone2tasklist
                     if (userChoice == ListTaskChoice)
                     {
                         //ListTasks - Display tasks tabbed and display task number
-                        Console.WriteLine(logic.ListTasks());
+                        logic.ListTasks();
+                        Console.WriteLine("Done?\t\tDue Date\t\tTeam Member\t\tDescription");
+                        foreach (Task task in logic.ListTasks())
+                            Console.WriteLine($"{task.IsDone}\t\t{task.DueDate.ToShortDateString()}\t\t{task.TeamMemberName}\t\t\t{task.Description}");
                     }
                     else if (userChoice == AddTaskChoice)
                     {
@@ -59,7 +62,7 @@ namespace gccapstone2tasklist
                         Console.WriteLine("DELETE TASK\nWhat task would you like to delete?:");
                         int deleteTask = int.Parse(Console.ReadLine());
 
-                        if (IsPressedKey($"You want to delete task number{deleteTask}? y/n"))
+                        if (IsPressedKey($"You want to delete task number {deleteTask}? y/n"))
                         {
                             logic.DeleteTask(deleteTask);
                         }
@@ -73,9 +76,8 @@ namespace gccapstone2tasklist
                         //IsDone - ask which task, validate, display, Y changes and main, N main
                         Console.WriteLine("MARK COMPLETED\nWhat task would you like to mark completed");
                         int completeTask = int.Parse(Console.ReadLine());
-                        string confirmDelete = Console.ReadLine();
 
-                        if (IsPressedKey($"You want to delete task number{completeTask}? y/n"))
+                        if (IsPressedKey($"You want to complete task number {completeTask}? y/n"))
                         {
                             logic.MarkComplete(completeTask);
                         }
@@ -104,7 +106,6 @@ namespace gccapstone2tasklist
                 {
                     Console.WriteLine("You did not enter a valid input");
                 }
-                IsPressedKey("Continue? (y/n)");
             }
         }
 
