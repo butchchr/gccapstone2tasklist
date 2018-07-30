@@ -18,15 +18,15 @@ namespace gccapstone2tasklist
         {
             Logic logic = new Logic();
 
-            bool y = true;
-            while (y)
+            bool run = true;
+            while (run)
             {
                 Console.WriteLine($"Welcome to the Task Manager!\n\t{ListTaskChoice}. List tasks\n\t{AddTaskChoice}. Add task\n\t{DeleteTaskChoice}. Delete task\n\t{MarkCompleteChoice}. Mark task complete\n\t{QuitChoice}. Quit\nWhat would you like to do?");
                 string dataFromUser = Console.ReadLine();
 
                 int userChoice;
                 bool num1 = int.TryParse(dataFromUser, out userChoice);
-                
+
                 if (num1)
                 {
                     if (userChoice == ListTaskChoice)
@@ -41,7 +41,7 @@ namespace gccapstone2tasklist
                         string newTeamName = Console.ReadLine();
                         Console.WriteLine("Task Description:");
                         string newTaskDescription = Console.ReadLine();
-                        Console.WriteLine("Due Date:");
+                        Console.WriteLine("Due Date (dd/mm/yyyy):");
 
                         DateTime newDueDate;
                         bool date1 = DateTime.TryParse(Console.ReadLine(), out newDueDate);
@@ -56,18 +56,44 @@ namespace gccapstone2tasklist
                     else if (userChoice == (DeleteTaskChoice))
                     {
                         //DeleteTask - ask which task, validate, display, 1 to end "confirm Y/N" return to main
-                        Console.WriteLine("DELETE TASK"); 
-                        //Console.WriteLine(logic.DeleteTask());
+                        Console.WriteLine("DELETE TASK\nWhat task would you like to delete?:");
+                        int deleteTask = int.Parse(Console.ReadLine());
+
+                        if (IsPressedKey($"You want to delete task number{deleteTask}? y/n"))
+                        {
+                            logic.DeleteTask(deleteTask);
+                        }
+                        else
+                        {
+                            run = true;
+                        }
                     }
                     else if (userChoice == MarkCompleteChoice)
                     {
                         //IsDone - ask which task, validate, display, Y changes and main, N main
-                        //Console.WriteLine(logic.MarkComplete());
+                        Console.WriteLine("MARK COMPLETED\nWhat task would you like to mark completed");
+                        int completeTask = int.Parse(Console.ReadLine());
+                        string confirmDelete = Console.ReadLine();
+
+                        if (IsPressedKey($"You want to delete task number{completeTask}? y/n"))
+                        {
+                            logic.MarkComplete(completeTask);
+                        }
+                        else
+                        {
+                             run = true;
+                        }
                     }
                     else if (userChoice == QuitChoice)
                     {
-                        //Quit - confirm Y = quit N = main menu
-
+                        if (IsPressedKey("Do you want to quit? y/n"))
+                        {
+                            run = false;
+                        }
+                        else
+                        {
+                            run = true;
+                        }
                     }
                     else
                     {
@@ -78,20 +104,11 @@ namespace gccapstone2tasklist
                 {
                     Console.WriteLine("You did not enter a valid input");
                 }
-                IsYorN(Console.ReadKey(), "Continue? (y/n)");
+                IsPressedKey("Continue? (y/n)");
             }
         }
 
-
-        //Add
-        
-        //Delete
-
-        //Mark Complete
-
-
-
-        static bool IsYorN(ConsoleKeyInfo YN, string Prompt)
+        static bool IsPressedKey(string Prompt)
         {
             bool invalid = true;
             while (invalid)

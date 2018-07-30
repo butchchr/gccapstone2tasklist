@@ -11,7 +11,12 @@ namespace gccapstone2tasklist
 
         public Task GetTask (int userInput)
         {
-            return tasks[OffsetListId(userInput)];
+            int index = OffsetListId(userInput);
+            if (IsValid(index))
+            {
+                return tasks[index];
+            }
+            return null;
         }
 
         public List<Task> ListTasks()
@@ -24,19 +29,31 @@ namespace gccapstone2tasklist
             tasks.Add(task);
         }
 
-        public void DeleteTask(int userInput)
+        public bool DeleteTask(int userInput)
         {
-            tasks.RemoveAt(OffsetListId(userInput));
+            Task task = GetTask(userInput);
+            if (task != null)
+            {
+                tasks.Remove(task);
+                return true;
+            }
+            return false;
         }
 
-        public void MarkComplete(int userInput)
+        public bool MarkComplete(int userInput)
         {
-            GetTask(OffsetListId(userInput)).IsDone = true;       
+            Task task = GetTask(userInput);
+            if (task != null)
+            {
+                task.IsDone = true;
+                return true;
+            }
+            return false;  
         }
 
         private bool IsValid(int taskIndex)
         {
-            return tasks.Any(); 
+            return taskIndex > 0 && taskIndex < tasks.Count; 
         }
 
         private int OffsetListId(int userInput)

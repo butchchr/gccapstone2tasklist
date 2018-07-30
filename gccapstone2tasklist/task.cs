@@ -7,7 +7,7 @@ namespace gccapstone2tasklist
 {
     class Task
     {
-        public string Name { get; set; }
+        public string TeamMemberName { get; set; }
 
         public string Description { get; set; }
 
