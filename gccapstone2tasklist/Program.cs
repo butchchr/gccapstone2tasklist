@@ -37,11 +37,26 @@ namespace gccapstone2tasklist
                     else if (userChoice == AddTaskChoice)
                     {
                         //AddTask - Enter all fields default to false for incompete, add to end of list
-                        //Console.WriteLine(logic.AddTask());
+                        Console.WriteLine("ADD TASK\nTeam Member Name: ");
+                        string newTeamName = Console.ReadLine();
+                        Console.WriteLine("Task Description:");
+                        string newTaskDescription = Console.ReadLine();
+                        Console.WriteLine("Due Date:");
+
+                        DateTime newDueDate;
+                        bool date1 = DateTime.TryParse(Console.ReadLine(), out newDueDate);
+
+                        logic.AddTask(new Task
+                        {
+                            TeamMemberName = newTeamName,
+                            Description = newTaskDescription,
+                            DueDate = newDueDate
+                        });
                     }
                     else if (userChoice == (DeleteTaskChoice))
                     {
                         //DeleteTask - ask which task, validate, display, 1 to end "confirm Y/N" return to main
+                        Console.WriteLine("DELETE TASK"); 
                         //Console.WriteLine(logic.DeleteTask());
                     }
                     else if (userChoice == MarkCompleteChoice)
@@ -66,6 +81,15 @@ namespace gccapstone2tasklist
                 IsYorN(Console.ReadKey(), "Continue? (y/n)");
             }
         }
+
+
+        //Add
+        
+        //Delete
+
+        //Mark Complete
+
+
 
         static bool IsYorN(ConsoleKeyInfo YN, string Prompt)
         {
